@@ -1,0 +1,4 @@
+git reset --soft HEAD^ 
+软回退，不会删文件
+git reset --hard HEAD^
+硬回退，会删文件

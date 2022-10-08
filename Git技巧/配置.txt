@@ -1,0 +1,6 @@
+生成密钥
+ssh-keygen -t rsa -C "xxx@xxx.com" 
+ssh-keygen -t rsa -C "xxx@xxx.com"  -f xxxxx_id-rsa
+
+测试
+ssh -T git@github.com
