@@ -1,0 +1,45 @@
+    private Vector3 moverOffset;
+
+    [SerializeField]
+    private Transform moverUnit;
+
+    private void OnMouseScrollWheelHold()
+    {
+        if (moverUnit == null) return;
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            moverOffset = GetMousePosition();
+        }
+        if (Input.GetMouseButton(2))
+        {
+            Vector3 p = GetMousePosition();
+            //获取鼠标位置的偏差值
+            moverOffset = (p - moverOffset) * MoveSpeed;
+            Vector3 offset = ReverseAxisYZ(moverOffset);
+            moverOffset = p;
+            //基于摄像机正前方进行换算
+            offset = Camera.main.transform.TransformDirection(offset);
+            //给移动的单位赋值
+            moverUnit.position -= new Vector3(offset.x, 0, offset.z);
+        }
+    }
+    /// <summary>
+    /// 鼠标位置 -> 屏幕位置
+    /// 基于屏幕中心点
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetMousePosition()
+    {
+        return Input.mousePosition - new Vector3(UguiForm.UICanvasScalerWidth, UguiForm.UICanvasScalerHeight, 0);
+    }
+    /// <summary>
+    /// Y轴与Z轴互换
+    /// 因为鼠标位置是Vector3，并且Z轴始终为0
+    /// </summary>
+    /// <param name="v3"></param>
+    /// <returns></returns>
+    private Vector3 ReverseAxisYZ(Vector3 v3)
+    {
+        return new Vector3(v3.x, v3.z, v3.y);
+    }
