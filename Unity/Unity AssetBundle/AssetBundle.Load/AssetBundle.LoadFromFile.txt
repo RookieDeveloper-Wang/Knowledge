@@ -1,0 +1,6 @@
+UnityWebRequest request = UnityWebRequestAssetBundle.GetAssetBundle(path);
+await request.SendWebRequest();
+AssetBundle assetBundle = DownloadHandlerAssetBundle.GetContent(request);
+Object obj = assetBundle.LoadAsset(loadAsset.LoadPath);
+LoadAssetBundle(loadAsset, obj);
+request.Dispose();

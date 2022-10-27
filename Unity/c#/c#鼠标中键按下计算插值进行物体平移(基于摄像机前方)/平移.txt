@@ -23,6 +23,12 @@
             //给移动的单位赋值
             moverUnit.position -= new Vector3(offset.x, 0, offset.z);
         }
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        {
+            Vector3 offset = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            offset = Camera.main.transform.TransformDirection(offset);
+            moverUnit.CacheTransform.position += new Vector3(offset.x, 0, offset.z) * 10 * MoveSpeed;
+        }
     }
     /// <summary>
     /// 鼠标位置 -> 屏幕位置
@@ -31,7 +37,7 @@
     /// <returns></returns>
     private Vector3 GetMousePosition()
     {
-        return Input.mousePosition - new Vector3(UguiForm.UICanvasScalerWidth, UguiForm.UICanvasScalerHeight, 0);
+        return Input.mousePosition - new Vector3(Screen.width, Screen.height, 0);
     }
     /// <summary>
     /// Y轴与Z轴互换
