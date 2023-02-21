@@ -1,0 +1,7 @@
+ UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
+
+//Apply
+ EditorUtility.SetDirty(sceneAssetNpcRole);
+
+//刷新            
+AssetDatabase.Refresh();

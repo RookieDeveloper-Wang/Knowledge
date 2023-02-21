@@ -1,0 +1,28 @@
+  [CanEditMultipleObjects]
+    [CustomEditor(typeof(SceneAssetNpcRole))]
+    public class SceneAssetNpcRoleEditor : UnityEditor.Editor
+    {
+        public DialogueMakerObject dialogueObject;
+
+        public ReputationType m_Value;
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            m_Value = (ReputationType)EditorGUILayout.EnumPopup("选择类型 : ", m_Value);
+        }
+    }
+
+public enum ReputationType : byte
+{
+    Hateful, 
+
+    Apathy,
+
+    Normal,
+
+    Friendly,
+
+    Best
+}
