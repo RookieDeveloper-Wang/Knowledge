@@ -1,0 +1,5 @@
+git push -f github main
+
+-f 强制上传覆盖
+github 是远程仓库路径名 。 示例：现在我有2个，origin是本地的gitlab仓库，github是 https://github.com/RookieDeveloper-Wang/DigitalTwinPlatform.git
+main 是远程仓库的分支名

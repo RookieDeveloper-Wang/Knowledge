@@ -1,0 +1,85 @@
+//单个元素的结构体
+ [Serializable]
+    public class UITableConfig
+    {
+        [SerializeField]
+        public string tableName;
+        [SerializeField]
+        public RectTransform tablePage;
+    }
+
+
+//List
+  public List<UITableConfig> tableConfigList = new List<UITableConfig>();
+
+
+
+//绘制List的整体，在Editor类里
+protected ReorderableList tableConfigList;
+
+protected  void OnEnable()
+{
+  tableConfigList = new ReorderableList(serializedObject, 
+serializedObject.FindProperty("tableConfigList"), true, true, true, true);
+///绘制头部
+ tableConfigList.drawHeaderCallback = (Rect rect) =>
+            {
+                GUI.Label(rect, "Table Config");
+            };
+///单个元素的高度
+ tableConfigList.elementHeight = 45;
+            //自定义绘制列表元素
+            tableConfigList.drawElementCallback = (Rect rect, int index, bool selected, bool focused) =>
+            {
+                //根据index获取对应元素
+                SerializedProperty item = tableConfigList.serializedProperty.GetArrayElementAtIndex(index);
+                rect.height = EditorGUIUtility.singleLineHeight;
+                rect.y += 2;
+         
+                EditorGUI.PropertyField(rect,item, new GUIContent("Table " + index));
+            };
+}
+
+public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            serializedObject.Update();
+            //自动布局绘制列表
+            tableConfigList.DoLayoutList();
+            serializedObject.ApplyModifiedProperties();
+        }
+
+
+
+
+//绘制单个元素
+[CustomPropertyDrawer(typeof(UITableConfig))]
+    public class UITableConfigDrawer : PropertyDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            using (new EditorGUI.PropertyScope(position, label, property))
+            {
+                EditorGUIUtility.labelWidth = 80;
+                //输入框高度，默认一行的高度
+                position.height = EditorGUIUtility.singleLineHeight;
+
+                SerializedProperty pageProperty = property.FindPropertyRelative("tablePage");
+                SerializedProperty nameProperty = property.FindPropertyRelative("tableName");
+                Rect nameRect = new Rect(position)
+                {
+				//设置宽度，和位置
+                    width = position.width,
+                    x = position.x
+                };
+                Rect pageRect = new Rect(position)
+                {
+                    y = position.y + EditorGUIUtility.singleLineHeight + 2,
+
+                };
+			//属性字段
+                nameProperty.stringValue = EditorGUI.TextField(nameRect, "Name", nameProperty.stringValue);
+                pageProperty.objectReferenceValue = EditorGUI.ObjectField(pageRect, "Page", pageProperty.objectReferenceValue, typeof(RectTransform));
+            }
+        }
+    }
